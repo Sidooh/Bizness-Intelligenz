@@ -4,12 +4,24 @@ import router from "./router"
 import { createPinia } from "pinia";
 import { addIcons, OhVueIcon } from "oh-vue-icons";
 import { defaultConfig, plugin } from '@formkit/vue'
-import { FaChartPie, GiMoneyStack, MdCurrencyexchange, MdSupervisoraccountOutlined } from 'oh-vue-icons/icons'
+import {
+    FaChartPie,
+    GiMoneyStack,
+    MdCurrencyexchange,
+    MdErrorSharp,
+    MdSupervisoraccountOutlined
+} from 'oh-vue-icons/icons'
 
 import 'simplebar/dist/simplebar.min.css';
 import '@nabcellent/sui-vue/dist/style.css'
 
-addIcons(FaChartPie, MdSupervisoraccountOutlined, MdCurrencyexchange, GiMoneyStack)
+addIcons(
+    FaChartPie,
+    MdSupervisoraccountOutlined,
+    MdCurrencyexchange,
+    MdErrorSharp,
+    GiMoneyStack
+)
 
 createApp(App)
     .component('v-icon', OhVueIcon)

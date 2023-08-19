@@ -15,7 +15,8 @@ export const toast = async (options: SweetAlertOptions = {}) => {
         icon: 'success',
         toast: true,
         position: 'bottom-right',
-        showConfirmButton: false
+        showConfirmButton: false,
+        timer: 7000
     }
 
     const mergedOptions: SweetAlertOptions = { ...defaultOptions, ...options }

@@ -1,4 +1,6 @@
 <template>
+    <ErrorFallback v-if="error" :error="error"/>
+
     <Suspense>
         <slot/>
 
@@ -15,7 +17,14 @@
 </template>
 
 <script setup lang="ts">
+import { onErrorCaptured, ref } from "vue";
+import ErrorFallback from "@/components/ErrorFallback.vue";
 
+const error = ref()
+
+onErrorCaptured(e => {
+    error.value = e
+})
 </script>
 
 <style scoped>

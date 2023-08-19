@@ -1,5 +1,6 @@
 <template>
-    <div class="row g-3 mb-3">
+    <ErrorFallback v-if="error" :error="error"/>
+    <div v-else class="row g-3 mb-3">
         <div class="col">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center py-2">
@@ -51,8 +52,10 @@
 import { SimpleBar } from 'simplebar-vue3';
 import moment from "moment";
 import { useAccountsStore } from "@/stores/accounts";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import ErrorFallback from "@/components/ErrorFallback.vue";
 
+const error = ref<Error|undefined>(undefined)
 const store = useAccountsStore()
 
 const acquisitionCounts = computed(() => {
@@ -64,5 +67,9 @@ const acquisitionCounts = computed(() => {
         }, {});
 })
 
-await store.getAcquisition()
+try {
+    await store.getAcquisition()
+} catch (e:any) {
+    error.value = e
+}
 </script>

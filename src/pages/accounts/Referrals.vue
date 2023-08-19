@@ -1,5 +1,6 @@
 <template>
-    <div class="row g-3 mb-3">
+    <ErrorFallback v-if="error" :error="error"/>
+    <div v-else class="row g-3 mb-3">
         <div class="col">
             <div class="card overflow-hidden" style="min-width: 12rem">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center py-2">
@@ -86,19 +87,19 @@
 
                     <div class="row p-3 justify-content-center text-center">
                         <div class="col-md-4 border-end border-end-2 border-dashed">
-                            <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning">
+                            <div class="display-4 fs-3 mb-2 fw-normal font-sans-serif text-primary">
                                 {{ store.inviteRate.toFixed(2) }}
                             </div>
                             <h6>Invite Rate</h6>
                         </div>
                         <div class="col-md-4 border-end border-end-2 border-dashed">
-                            <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning">
+                            <div class="display-4 fs-3 mb-2 fw-normal font-sans-serif text-primary">
                                 {{ store.acceptanceRate.toFixed(2) }}
                             </div>
                             <h6>Acceptance Rate</h6>
                         </div>
                         <div class="col-md-4">
-                            <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning">
+                            <div class="display-4 fs-3 mb-2 fw-normal font-sans-serif text-primary">
                                 {{ store.viralCoefficient.toFixed(2) }}
                             </div>
                             <h6>Viral Coefficient</h6>
@@ -113,8 +114,15 @@
 <script setup lang="ts">
 import { useAccountsStore } from "@/stores/accounts";
 import { SimpleBar } from "simplebar-vue3";
+import ErrorFallback from "@/components/ErrorFallback.vue";
+import { ref } from "vue";
 
+const error = ref<Error|undefined>(undefined)
 const store = useAccountsStore()
 
-await store.getReferrals()
+try {
+    await store.getReferrals()
+} catch (e:any) {
+    error.value = e
+}
 </script>
