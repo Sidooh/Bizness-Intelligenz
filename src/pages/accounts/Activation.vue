@@ -7,13 +7,22 @@
                     <h5 class="mb-0">Actions</h5>
                 </div>
                 <div class="card-body position-relative">
-                    <SimpleBar style="max-height: 17rem; overflow-x: hidden">
-                        <div class="row fs--2 my-2" v-for="(acq, i) in store.acquisition">
+                    <div class="row">
+                        <div class="col-lg-2">User</div>
+                        <div class="col-lg-10">Actions</div>
+                    </div>
+                    <SimpleBar style="max-height: 15rem; overflow-x: hidden">
+                        <div class="row fs--2 my-2" v-for="(acts, id) in actions">
                             <div class="col-lg-2">
-                                1
+                                <a :href="`${CONFIG.sidooh.services.accounts.dashboard.url}/accounts/${id.split('-')[0]}`">
+                                    {{ id }}
+                                </a>
                             </div>
                             <div class="col-lg-10">
-                                <span>Created Profile</span>
+                                <span v-if="acts.length > 0" v-for="(act, i) in acts">
+                                    {{ act }} <span v-if="i < acts.length - 1" class="text-warning">* </span>
+                                </span>
+                                <span v-else>No Action</span>
                             </div>
                         </div>
                     </SimpleBar>
@@ -29,27 +38,25 @@ import { ref } from "vue";
 import ErrorFallback from "@/components/ErrorFallback.vue";
 import { useProductsStore } from "@/stores/products.ts";
 import { useAccountsStore } from "@/stores/accounts.ts";
+import { CONFIG } from "@/config.ts";
 
 const error = ref<Error | undefined>(undefined)
 const productsStore = useProductsStore()
 const accountStore = useAccountsStore()
-const actions = ref({})
+const actions = ref<{ [key: string]: string[] }>({})
 
 try {
-    if(!productsStore.transactions) await productsStore.fetchTransactions()
-    if(!accountStore.accounts) await accountStore.fetchAccounts()
-    if(!accountStore.invites) await accountStore.fetchInvites()
+    if (!productsStore.transactions) await productsStore.fetchTransactions()
+    if (!accountStore.accounts) await accountStore.fetchAccounts()
+    if (!accountStore.invites) await accountStore.fetchInvites()
 
     const inviters = accountStore.invites?.map(i => i.inviter_id);
 
     accountStore.accounts?.forEach((acc) => {
-        if(!actions.value[acc.id]) {
-            actions.value[acc.id] = []
-        }
+        const key = `${acc.id} - ${acc.phone}`;
 
-        if (acc.user_id) {
-            actions.value[acc.id].push('Created Profile')
-        }
+        if (!actions.value[key]) actions.value[key] = []
+        if (acc.user_id) actions.value[key].push('Created Profile')
 
         productsStore.transactions?.filter(tx => tx.account_id === acc.id).forEach(tx => {
             const conversions = {
@@ -65,14 +72,12 @@ try {
                 tx.description = conversions[tx.description];
             }
 
-            return actions.value[acc.id].push(tx.description)
+            return actions.value[key].push(tx.description)
         })
 
-        if (inviters?.includes(acc.id)) {
-            actions.value[acc.id].push('Invited')
-        }
+        if (inviters?.includes(acc.id)) actions.value[key].push('Invited')
 
-        actions.value[acc.id] = [...new Set(actions[acc.id])]
+        actions.value[key] = [...new Set(actions.value[key])]
     })
 
     console.log(actions.value)
