@@ -31,7 +31,7 @@
                 <CardBgCorner :corner="3"/>
                 <div class="card-body position-relative">
                     <h6>Inactive Accounts</h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal text-secondary">
+                    <div class="display-4 fs-4 mb-2 fw-normal text-danger">
                         {{ accountStore.totalSidoohAccounts - productsStore.activeAccounts }}
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <CardBgCorner :corner="5"/>
                 <div class="card-body position-relative">
                     <h6>Active Subscribers</h6>
-                    <div class="display-4 fs-4 mb-2 fw-normal text-danger">
+                    <div class="display-4 fs-4 mb-2 fw-normal text-secondary">
                         {{ productsStore.activeSubscribersCount }}
                     </div>
                 </div>
