@@ -33,3 +33,13 @@ export const decodeJWT = (token: string) => {
 
     return JSON.parse(jsonPayload);
 }
+
+export const groupBy = <T, K extends keyof T>(arr: T[], property: K): Record<T[K], T[]> =>
+    arr.reduce((groups: Record<T[K], T[]>, item: T) => {
+        const key = item[property];
+        if (!groups[key]) {
+            groups[key] = [];
+        }
+        groups[key].push(item);
+        return groups;
+    }, {} as Record<T[K], T[]>);

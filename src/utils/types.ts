@@ -13,3 +13,9 @@ export type Transaction = Model & {
     description: string
     destination: string
 }
+
+export type Subscription = Model & {
+    account_id: number
+    start_date: string
+    end_date: string
+}

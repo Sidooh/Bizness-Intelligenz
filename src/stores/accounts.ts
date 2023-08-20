@@ -19,7 +19,7 @@ export const useAccountsStore = defineStore('accounts', {
     }),
     getters: {
         joinedInviteAccounts: state => state.invites?.filter(i => i.status === 'ACTIVE'),
-        totalSidoohAccounts: state => (state.accounts && state.accounts[0] ? state.accounts[0].id : null),
+        totalSidoohAccounts: state => (state.accounts && state.accounts[0] ? state.accounts[0].id : undefined),
         convergence: state => state.total_converted / state.total_invites * 100,
         inviteRate(state) {
             return this.totalSidoohAccounts / (state.invites?.length || 1)

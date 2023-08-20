@@ -23,6 +23,12 @@ const router = createRouter({
             meta: { auth: true },
             component: () => import("@/pages/accounts/Index.vue")
         },
+        {
+            name: 'transactions',
+            path: '/transactions',
+            meta: { auth: true },
+            component: () => import("@/pages/transactions/Index.vue")
+        },
 
         // Status check
         { path: '/health', component: StatusPage, meta: { layout: AuthLayout }, name: 'status.ping' },
