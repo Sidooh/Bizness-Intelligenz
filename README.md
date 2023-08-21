@@ -1,18 +1,50 @@
-# Vue 3 + TypeScript + Vite
+# SIDOOH ANALYTICS PLATFORM
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Table of Contents
 
-## Recommended IDE Setup
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Introduction
 
-## Type Support For `.vue` Imports in TS
+This is an analytics platform built in Vue.js for Sidooh International to allows tracking and analysis of financial
+data.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Features
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Analysis of Accounts:
+    - Acquisition - new accounts
+    - Activation - number of newly acquired users that took a desired action
+    - Retention - activity rate / subscription
+    - Referrals
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+## Getting Started
+
+### Prerequisites
+
+- NodeJs
+- Typescript
+- VueJs
+
+### Installation
+
+1. Clone the repository.
+   ```bash
+   git clone https://github.com/your-username/project-name.git
+
+2. Install dependencies
+   ```bash
+   yarn install
+
+3. Run the development server
+   ```bash
+   yarn run dev
+
+## Configuration
+
+Copy and update the .env.example file to use the appropriate configurations
