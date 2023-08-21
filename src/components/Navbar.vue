@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { CONFIG } from "@/config";
-import { useAuthStore } from "@/stores/auth";
-import { Logo, Waffle } from "@nabcellent/sui-vue";
+import { CONFIG } from '@/config';
+import { useAuthStore } from '@/stores/auth';
+import { Logo, Waffle } from '@nabcellent/sui-vue';
 
 const waffleLinks = [
     {
@@ -53,7 +53,7 @@ const waffleLinks = [
         contentClass: 'bg-warning-subtle text-primary',
         enabled: true
     },
-]
+];
 </script>
 
 <template>

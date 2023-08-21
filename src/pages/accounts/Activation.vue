@@ -12,16 +12,18 @@
                         <div class="col-lg-10">Actions</div>
                     </div>
                     <SimpleBar style="max-height: 15rem; overflow-x: hidden">
-                        <div class="row fs--2 my-2" v-for="(acts, id) in actions">
+                        <div class="row fs--2 my-2" v-for="(acts, key) in actions" :key="key">
                             <div class="col-lg-2">
-                                <a :href="`${CONFIG.sidooh.services.accounts.dashboard.url}/accounts/${id.split('-')[0]}`">
-                                    {{ id }}
+                                <a :href="`${CONFIG.sidooh.services.accounts.dashboard.url}/accounts/${(key as string).split('-')[0]}`">
+                                    {{ key }}
                                 </a>
                             </div>
                             <div class="col-lg-10">
-                                <span v-if="acts.length > 0" v-for="(act, i) in acts">
-                                    {{ act }} <span v-if="i < acts.length - 1" class="text-warning">* </span>
-                                </span>
+                                <div v-if="acts.length > 0">
+                                    <span v-for="(act, i) in acts" :key="act">
+                                        {{ act }} <span v-if="i < acts.length - 1" class="text-warning">* </span>
+                                    </span>
+                                </div>
                                 <span v-else>No Action</span>
                             </div>
                         </div>
@@ -33,33 +35,33 @@
 </template>
 
 <script setup lang="ts">
-import { SimpleBar } from 'simplebar-vue3';
-import { ref } from "vue";
-import ErrorFallback from "@/components/ErrorFallback.vue";
-import { useProductsStore } from "@/stores/products.ts";
-import { useAccountsStore } from "@/stores/accounts.ts";
-import { CONFIG } from "@/config.ts";
+import SimpleBar from 'simplebar-vue';
+import { ref } from 'vue';
+import ErrorFallback from '@/components/ErrorFallback.vue';
+import { useProductsStore } from '@/stores/products.ts';
+import { useAccountsStore } from '@/stores/accounts.ts';
+import { CONFIG } from '@/config.ts';
 
-const error = ref<Error | undefined>(undefined)
-const productsStore = useProductsStore()
-const accountStore = useAccountsStore()
-const actions = ref<{ [key: string]: string[] }>({})
+const error = ref<Error | undefined>(undefined);
+const productsStore = useProductsStore();
+const accountStore = useAccountsStore();
+const actions = ref<{ [key: string]: string[] }>({});
 
 try {
-    if (!productsStore.transactions) await productsStore.fetchTransactions()
-    if (!accountStore.accounts) await accountStore.fetchAccounts()
-    if (!accountStore.invites) await accountStore.fetchInvites()
+    if (!productsStore.transactions) await productsStore.fetchTransactions();
+    if (!accountStore.accounts) await accountStore.fetchAccounts();
+    if (!accountStore.invites) await accountStore.fetchInvites();
 
     const inviters = accountStore.invites?.map(i => i.inviter_id);
 
     accountStore.accounts?.forEach((acc) => {
         const key = `${acc.id} - ${acc.phone}`;
 
-        if (!actions.value[key]) actions.value[key] = []
-        if (acc.user_id) actions.value[key].push('Created Profile')
+        if (!actions.value[key]) actions.value[key] = [];
+        if (acc.user_id) actions.value[key].push('Created Profile');
 
         productsStore.transactions?.filter(tx => tx.account_id === acc.id).forEach(tx => {
-            const conversions = {
+            const conversions: { [key: string]: string } = {
                 'Airtime Purchase': 'Purchased Airtime',
                 'Utility Purchase': 'Purchased Utility',
                 'Voucher Purchase': 'Purchased Voucher',
@@ -68,20 +70,20 @@ try {
                 'Merchant Payment': 'Paid Merchant'
             };
 
-            if (conversions.hasOwnProperty(tx.description)) {
+            if (Object.prototype.hasOwnProperty.call(conversions, tx.description)) {
                 tx.description = conversions[tx.description];
             }
 
-            return actions.value[key].push(tx.description)
-        })
+            return actions.value[key].push(tx.description);
+        });
 
-        if (inviters?.includes(acc.id)) actions.value[key].push('Invited')
+        if (inviters?.includes(acc.id)) actions.value[key].push('Invited');
 
-        actions.value[key] = [...new Set(actions.value[key])]
-    })
+        actions.value[key] = [...new Set(actions.value[key])];
+    });
 
-    console.log(actions.value)
+    console.log(actions.value);
 } catch (e: any) {
-    error.value = e
+    error.value = e;
 }
 </script>

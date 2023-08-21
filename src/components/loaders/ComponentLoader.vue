@@ -17,14 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import { onErrorCaptured, ref } from "vue";
-import ErrorFallback from "@/components/ErrorFallback.vue";
+import { onErrorCaptured, ref } from 'vue';
+import ErrorFallback from '@/components/ErrorFallback.vue';
 
-const error = ref()
+const error = ref();
 
 onErrorCaptured(e => {
-    error.value = e
-})
+    error.value = e;
+});
 </script>
 
 <style scoped>

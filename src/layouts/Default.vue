@@ -24,15 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from "@/components/Navbar.vue"
-import Sidebar from "@/components/Sidebar.vue";
-import { computed } from "vue";
-import { useCoreStore } from "@/stores/core";
-import Footer from "@/components/Footer.vue";
-import { CONFIG } from "@/config";
-import ComponentLoader from "@/components/loaders/ComponentLoader.vue";
+import Navbar from '@/components/Navbar.vue';
+import Sidebar from '@/components/Sidebar.vue';
+import { computed } from 'vue';
+import { useCoreStore } from '@/stores/core';
+import Footer from '@/components/Footer.vue';
+import { CONFIG } from '@/config';
+import ComponentLoader from '@/components/loaders/ComponentLoader.vue';
 
-const store = useCoreStore()
+const store = useCoreStore();
 
-const containerStyle = computed(() => store.isFluid ? 'container-fluid' : 'container')
+const containerStyle = computed(() => store.isFluid ? 'container-fluid' : 'container');
 </script>

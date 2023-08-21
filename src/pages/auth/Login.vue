@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
-import router from "../../router";
-import { FormKitGroupValue } from "@formkit/core";
-import { toast } from "@/utils/helpers.ts";
-import { Logo } from "@nabcellent/sui-vue";
+import { useAuthStore } from '@/stores/auth';
+import router from '../../router';
+import { FormKitGroupValue } from '@formkit/core';
+import { toast } from '@/utils/helpers.ts';
+import { Logo } from '@nabcellent/sui-vue';
 
 const handleSubmit = async (formData: FormKitGroupValue) => {
     try {
-        const data = formData as { email: string, password: string }
+        const data = formData as { email: string, password: string };
 
-        await useAuthStore().login(data.email, data.password)
+        await useAuthStore().login(data.email, data.password);
 
-        const intended = localStorage.getItem('urlIntended')
+        const intended = localStorage.getItem('urlIntended');
 
-        await router.push({ path: intended ?? '/' })
+        await router.push({ path: intended ?? '/' });
 
-        localStorage.removeItem('urlIntended')
+        localStorage.removeItem('urlIntended');
     } catch (err: any) {
-        toast({ titleText: err.message, icon: 'warning' })
+        toast({ titleText: err.message, icon: 'warning' });
     }
-}
+};
 </script>
 
 <template>

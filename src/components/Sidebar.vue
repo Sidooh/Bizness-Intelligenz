@@ -16,7 +16,7 @@
              @mouseleave="handleMouseLeave">
             <div class="navbar-vertical-content scrollbar">
                 <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
-                    <li v-for="route in routes" class="nav-item">
+                    <li v-for="(route, i) in routes" class="nav-item" :key="i">
                         <div v-if="route.label" class="row navbar-vertical-label-wrapper mt-3 mb-2">
                             <div class="col-auto navbar-vertical-label">App</div>
                             <div class="col ps-0">
@@ -24,7 +24,7 @@
                             </div>
                         </div>
 
-                        <template v-for="child in route.children">
+                        <template v-for="child in route.children" :key="child.name">
                             <router-link class="nav-link" :to="child.to" exact-active-class="active"
                                          :class="{'dropdown-indicator':child.children}" aria-expanded="false">
                                 <div class="d-flex align-items-center">
@@ -35,7 +35,7 @@
 
                             <ul v-if="child.children" class="flex-column nav collapse show navbar-nav"
                                 :class="{'show':child.active}">
-                                <li v-for="grandChild in child.children" class="nav-item">
+                                <li v-for="grandChild in child.children" class="nav-item" :key="grandChild.name">
                                     <router-link class="nav-link" :to="grandChild.to" exact-active-class="active">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text ps-1">{{ grandChild.name }}</span>
@@ -52,14 +52,14 @@
 </template>
 
 <script setup lang="ts">
-import { useCoreStore } from "@/stores/core";
-import { computed } from "vue";
-import { Logo, RouteType } from "@nabcellent/sui-vue";
+import { useCoreStore } from '@/stores/core';
+import { computed } from 'vue';
+import { Logo, RouteType } from '@nabcellent/sui-vue';
 
-const store = useCoreStore()
-const toggleNav = () => store.toggleSideNav()
+const store = useCoreStore();
+const toggleNav = () => store.toggleSideNav();
 
-const sideNavStyle = computed(() => store.navbarStyle !== 'transparent' ? `navbar-${store.navbarStyle}` : '')
+const sideNavStyle = computed(() => store.navbarStyle !== 'transparent' ? `navbar-${store.navbarStyle}` : '');
 
 const HTMLClassList = document.getElementsByTagName('html')[0].classList;
 
@@ -107,5 +107,5 @@ const routes: RouteType[] = [
             { to: '/security-questions', name: 'Security Questions', icon: faCircleQuestion },
         ]
     }*/
-]
+];
 </script>

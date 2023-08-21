@@ -1,9 +1,8 @@
-import { defineStore } from "pinia";
-import { Subscription, Transaction } from "@/utils/types.ts";
-import axios from "@/utils/axios.ts";
-import { CONFIG } from "@/config.ts";
-import { Status } from "@nabcellent/sui-vue";
-import { groupBy } from "@/utils/helpers.ts";
+import { defineStore } from 'pinia';
+import axios from '@/utils/axios.ts';
+import { CONFIG } from '@/config.ts';
+import { Status, Subscription, Transaction } from '@nabcellent/sui-vue';
+import { groupBy } from '@/utils/helpers.ts';
 
 export const useProductsStore = defineStore('products', {
     state: () => ({
@@ -19,32 +18,32 @@ export const useProductsStore = defineStore('products', {
             return {
                 ...curr,
                 [sub.account_id]: (curr[sub.account_id] || 0) + 1
-            }
+            };
         }, {}),
         activeSubscribers: state => {
-            return groupBy(state.subscriptions?.filter(sub => sub.status === Status.ACTIVE) ?? [], 'account_id')
+            return groupBy(state.subscriptions?.filter(sub => sub.status === Status.ACTIVE) ?? [], 'account_id');
         },
         subscribersCount() {
-            return Object.keys(this?.subscribers).length
+            return Object.keys(this?.subscribers).length;
         },
         activeSubscribersCount() {
-            return Object.keys(this?.activeSubscribers).length
+            return Object.keys(this?.activeSubscribers).length;
         }
     },
     actions: {
         async fetchTransactions() {
-            const { data: res } = await axios.get(`${this.baseUrl}/transactions?page_size=20`)
+            const { data: res } = await axios.get(`${this.baseUrl}/transactions?page_size=20`);
 
-            this.transactions = res.data.data
+            this.transactions = res.data.data;
         },
         async fetchSubscriptions() {
-            const { data: res } = await axios.get(`${this.baseUrl}/subscriptions?page_size=20`)
+            const { data: res } = await axios.get(`${this.baseUrl}/subscriptions?page_size=20`);
 
-            this.subscriptions = res.data.data
+            this.subscriptions = res.data.data;
         },
         async getRetention() {
-            if (!this.transactions) await this.fetchTransactions()
-            if (!this.subscriptions) await this.fetchSubscriptions()
+            if (!this.transactions) await this.fetchTransactions();
+            if (!this.subscriptions) await this.fetchSubscriptions();
 
             const uniqueAccountIds: { [key: number]: number } = {};
             const completedUniqueAccountIds: { [key: number]: number } = {};
@@ -53,12 +52,12 @@ export const useProductsStore = defineStore('products', {
                 uniqueAccountIds[tx.account_id] = (uniqueAccountIds[tx.account_id] || 0) + 1;
 
                 if (tx.status === Status.COMPLETED) {
-                    completedUniqueAccountIds[tx.account_id] = (completedUniqueAccountIds[tx.account_id] || 0) + 1
+                    completedUniqueAccountIds[tx.account_id] = (completedUniqueAccountIds[tx.account_id] || 0) + 1;
                 }
             }
 
-            this.activeAccounts = Object.keys(uniqueAccountIds).length
-            this.completedActiveAccounts = Object.keys(completedUniqueAccountIds).length
+            this.activeAccounts = Object.keys(uniqueAccountIds).length;
+            this.completedActiveAccounts = Object.keys(completedUniqueAccountIds).length;
         }
     }
-})
+});

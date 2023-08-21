@@ -74,21 +74,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import ErrorFallback from "@/components/ErrorFallback.vue";
-import { useProductsStore } from "@/stores/products.ts";
-import { useAccountsStore } from "@/stores/accounts.ts";
-import { CardBgCorner } from "@nabcellent/sui-vue";
+import { ref } from 'vue';
+import ErrorFallback from '@/components/ErrorFallback.vue';
+import { useProductsStore } from '@/stores/products.ts';
+import { useAccountsStore } from '@/stores/accounts.ts';
+import { CardBgCorner } from '@nabcellent/sui-vue';
 
-const error = ref<Error | undefined>(undefined)
-const productsStore = useProductsStore()
-const accountStore = useAccountsStore()
+const error = ref<Error | undefined>(undefined);
+const productsStore = useProductsStore();
+const accountStore = useAccountsStore();
 
 try {
-    if (!accountStore.accounts) await accountStore.fetchAccounts()
+    if (!accountStore.accounts) await accountStore.fetchAccounts();
 
-    await productsStore.getRetention()
+    await productsStore.getRetention();
 } catch (e: any) {
-    error.value = e
+    error.value = e;
 }
 </script>

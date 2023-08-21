@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ serviceName: 'Accounts' | 'Payments' | 'Products' | 'Savings' | 'Notify' | 'Analytics', version: string | number }>()
+defineProps<{ serviceName: 'Accounts' | 'Payments' | 'Products' | 'Savings' | 'Notify' | 'Analytics', version: string | number }>();
 </script>
 
 <template>

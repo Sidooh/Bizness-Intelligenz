@@ -10,7 +10,7 @@
                 <div class="card-body position-relative">
                     <SimpleBar style="max-height: 15rem; overflow-x: hidden">
                         <div class="row fs--2">
-                            <div class="col-lg-4 my-2" v-for="(acq, i) in store.acquisition">
+                            <div class="col-lg-4 my-2" v-for="acq in store.acquisition" :key="acq.id">
                                 <div class="d-flex align-items-start justify-content-between border-bottom">
                                     <div>{{ acq.id }} | <b>{{ acq.phone }}</b></div>
                                     <div>{{ acq.src }}</div>
@@ -25,9 +25,10 @@
                     <div class="border-bottom border-bottom-2 border-dashed my-3"/>
 
                     <div class="row">
-                        <div class="col" v-for="(count, src) in acquisitionCounts">
+                        <div class="col" v-for="(count, src) in acquisitionCounts" :key="src">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <div :style="`--falcon-circle-progress-bar:${count / store.acquisition.length * 100}`" class="position-relative">
+                                <div :style="`--falcon-circle-progress-bar:${count / store.acquisition.length * 100}`"
+                                     class="position-relative">
                                     <svg class="circle-progress-svg" width="26" height="26" viewBox="0 0 120 120">
                                         <circle class="progress-bar-rail" cx="60" cy="60" r="54" fill="none"
                                                 stroke-linecap="round" stroke-width="12"></circle>
@@ -49,27 +50,27 @@
 </template>
 
 <script setup lang="ts">
-import { SimpleBar } from 'simplebar-vue3';
-import moment from "moment";
-import { useAccountsStore } from "@/stores/accounts";
-import { computed, ref } from "vue";
-import ErrorFallback from "@/components/ErrorFallback.vue";
+import SimpleBar from 'simplebar-vue';
+import moment from 'moment';
+import { useAccountsStore } from '@/stores/accounts';
+import { computed, ref } from 'vue';
+import ErrorFallback from '@/components/ErrorFallback.vue';
 
-const error = ref<Error|undefined>(undefined)
-const store = useAccountsStore()
+const error = ref<Error | undefined>(undefined);
+const store = useAccountsStore();
 
 const acquisitionCounts = computed(() => {
     return Object.keys(store.acquisition_count_by_src)
         .sort((a, b) => store.acquisition_count_by_src[b] - store.acquisition_count_by_src[a])
-        .reduce((sorted, src) => {
+        .reduce((sorted: { [key: string]: number }, src) => {
             sorted[src] = store.acquisition_count_by_src[src];
             return sorted;
         }, {});
-})
+});
 
 try {
-    await store.getAcquisition()
-} catch (e:any) {
-    error.value = e
+    await store.getAcquisition();
+} catch (e: any) {
+    error.value = e;
 }
 </script>

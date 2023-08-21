@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
 
-export const useCoreStore = defineStore("core", {
+export const useCoreStore = defineStore('core', {
     state: () => ({
         isNavbarVerticalCollapsed: false,
         theme: 'light',
@@ -13,21 +13,21 @@ export const useCoreStore = defineStore("core", {
 
     actions: {
         toggleLayout() {
-            this.isFluid = !this.isFluid
-            localStorage.setItem('isFluid', String(this.isFluid))
+            this.isFluid = !this.isFluid;
+            localStorage.setItem('isFluid', String(this.isFluid));
         },
         toggleTheme() {
-            this.theme = this.theme === 'dark' ? 'light' : 'dark'
+            this.theme = this.theme === 'dark' ? 'light' : 'dark';
             // localStorage.setItem('theme', this.theme)
 
             if (this.theme === 'dark')
-                document.documentElement.classList.add('dark')
+                document.documentElement.classList.add('dark');
             else
                 document.documentElement.classList.remove('dark');
 
         },
         toggleSideNav() {
-            this.isNavbarVerticalCollapsed = !this.isNavbarVerticalCollapsed
+            this.isNavbarVerticalCollapsed = !this.isNavbarVerticalCollapsed;
             // localStorage.setItem('isNavbarVerticalCollapsed', String(this.isNavbarVerticalCollapsed))
 
             if (this.isNavbarVerticalCollapsed)
@@ -36,4 +36,4 @@ export const useCoreStore = defineStore("core", {
                 document.documentElement.classList.remove('navbar-vertical-collapsed');
         }
     }
-})
+});

@@ -24,6 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import ComponentLoader from "@/components/loaders/ComponentLoader.vue";
-import Retention from "@/pages/transactions/Retention.vue";
+import ComponentLoader from '@/components/loaders/ComponentLoader.vue';
+import Retention from '@/pages/transactions/Retention.vue';
 </script>

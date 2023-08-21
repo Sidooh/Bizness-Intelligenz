@@ -52,8 +52,8 @@
 </template>
 
 <script setup lang="ts">
-import Acquisition from "@/pages/accounts/Acquisition.vue";
-import Referrals from "@/pages/accounts/Referrals.vue";
-import ComponentLoader from "@/components/loaders/ComponentLoader.vue";
-import Activation from "@/pages/accounts/Activation.vue";
+import Acquisition from '@/pages/accounts/Acquisition.vue';
+import Referrals from '@/pages/accounts/Referrals.vue';
+import ComponentLoader from '@/components/loaders/ComponentLoader.vue';
+import Activation from '@/pages/accounts/Activation.vue';
 </script>

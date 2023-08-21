@@ -34,7 +34,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(invited, id) in store.invited.INVITED">
+                                    <tr v-for="(invited, id) in store.invited.INVITED" :key="id">
                                         <td class="py-1 fs--2">{{ id }}</td>
                                         <td class="text-end py-1 fs--2">{{ invited.invited }}</td>
                                         <td class="py-1 fs--2">{{ invited.converted }}</td>
@@ -64,7 +64,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(invited, id) in store.invited.INVITE_CODE">
+                                    <tr v-for="(invited, id) in store.invited.INVITE_CODE" :key="id">
                                         <td class="py-1 fs--2">{{ id }}</td>
                                         <td class="text-end py-1 fs--2">{{ invited.invited }}</td>
                                         <td class="py-1 fs--2">{{ invited.converted }}</td>
@@ -112,17 +112,17 @@
 </template>
 
 <script setup lang="ts">
-import { useAccountsStore } from "@/stores/accounts";
-import { SimpleBar } from "simplebar-vue3";
-import ErrorFallback from "@/components/ErrorFallback.vue";
-import { ref } from "vue";
+import { useAccountsStore } from '@/stores/accounts';
+import SimpleBar from 'simplebar-vue';
+import ErrorFallback from '@/components/ErrorFallback.vue';
+import { ref } from 'vue';
 
-const error = ref<Error|undefined>(undefined)
-const store = useAccountsStore()
+const error = ref<Error|undefined>(undefined);
+const store = useAccountsStore();
 
 try {
-    await store.getReferrals()
+    await store.getReferrals();
 } catch (e:any) {
-    error.value = e
+    error.value = e;
 }
 </script>
