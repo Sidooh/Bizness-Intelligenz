@@ -8,7 +8,6 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
 - [Configuration](#configuration)
-- [Contributing](#contributing)
 
 ## Introduction
 
