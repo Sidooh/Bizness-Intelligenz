@@ -33,6 +33,5 @@ dist-ssr
 .pnp.*
 
 .env
-.env.*
 
 y.hide
