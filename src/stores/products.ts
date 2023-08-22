@@ -4,14 +4,27 @@ import { CONFIG } from '@/config.ts';
 import { Status, Subscription, Transaction } from '@nabcellent/sui-vue';
 import { groupBy } from '@/utils/helpers.ts';
 
+type Revenue = { [key: string]: { total: number, actual?: number } }
+
+interface State {
+    baseUrl: string;
+    transactions: Transaction[] | undefined;
+    subscriptions: Subscription[] | undefined;
+    activeAccounts: number;
+    completedActiveAccounts: number;
+    inactiveAccounts: number;
+    revenue: Revenue | undefined;
+}
+
 export const useProductsStore = defineStore('products', {
-    state: () => ({
+    state: (): State => ({
         baseUrl: CONFIG.sidooh.services.products.api.url,
         transactions: <Transaction[] | undefined>undefined,
         subscriptions: <Subscription[] | undefined>undefined,
         activeAccounts: 0,
         completedActiveAccounts: 0,
-        inactiveAccounts: 0
+        inactiveAccounts: 0,
+        revenue: undefined
     }),
     getters: {
         subscribers: state => state.subscriptions?.reduce((curr: { [key: number]: number }, sub) => {
@@ -28,7 +41,8 @@ export const useProductsStore = defineStore('products', {
         },
         activeSubscribersCount() {
             return Object.keys(this?.activeSubscribers).length;
-        }
+        },
+        completedTransactions: (state): Transaction[] => state.transactions?.filter(tx => tx.status === 'COMPLETED') ?? []
     },
     actions: {
         async fetchTransactions() {
@@ -58,6 +72,40 @@ export const useProductsStore = defineStore('products', {
 
             this.activeAccounts = Object.keys(uniqueAccountIds).length;
             this.completedActiveAccounts = Object.keys(completedUniqueAccountIds).length;
+        },
+        async getRevenue() {
+            if (!this.transactions) await this.fetchTransactions();
+
+            if (!this.revenue) {
+                this.revenue = {};
+
+                const revenueTransactions = ['Airtime Purchase', 'Merchant Payment', 'Subscription Purchase'];
+
+                this.completedTransactions.forEach(tx => {
+                    const { description, amount } = tx;
+
+                    if (revenueTransactions.includes(description)) {
+                        let actualRevenue;
+                        if (description === 'Airtime Purchase') {
+                            actualRevenue = amount * .06;
+                        } else if (description.includes('Merchant Payment')) {
+                            actualRevenue = amount * .12;
+                        }
+
+                        if (!this.revenue![description]) this.revenue![description] = { total: 0 };
+
+                        this.revenue![description].total += amount;
+
+                        if (actualRevenue) {
+                            if (!this.revenue![description]?.actual) this.revenue![description].actual = 0;
+
+                            this.revenue![description].actual! += actualRevenue;
+                        }
+
+                        return this.revenue!;
+                    }
+                }, {});
+            }
         }
     }
 });

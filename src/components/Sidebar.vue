@@ -92,11 +92,11 @@ const routes: RouteType[] = [
                 to: 'transactions',
                 name: 'Transactions',
                 icon: 'md-currencyexchange',
-            }, {
+            }/*, {
                 to: 'revenue',
                 name: 'Revenue',
                 icon: 'gi-money-stack',
-            }
+            }*/
         ]
     },
     /*{

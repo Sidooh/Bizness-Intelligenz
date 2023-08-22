@@ -21,9 +21,24 @@
     <ComponentLoader>
         <Retention/>
     </ComponentLoader>
+
+    <div class="d-flex mb-4 mt-6">
+        <div class="col">
+            <h5 class="mb-0 text-primary position-relative">
+                <span class="bg-200 dark__bg-1100 pe-3">Revenue</span>
+                <span class="border position-absolute top-50 translate-middle-y w-100 start-0 z-n1"></span>
+            </h5>
+            <small>Transaction Volume / Airtime / Utility / Merchant / Subscription / Cashback / Withdrawals</small>
+        </div>
+    </div>
+
+    <ComponentLoader>
+        <Revenue/>
+    </ComponentLoader>
 </template>
 
 <script setup lang="ts">
 import ComponentLoader from '@/components/loaders/ComponentLoader.vue';
 import Retention from '@/pages/transactions/Retention.vue';
+import Revenue from '@/pages/transactions/Revenue.vue';
 </script>
