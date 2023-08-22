@@ -9,18 +9,10 @@
                         <h6 class="lh-base text-700 mb-0">{{ desc }}</h6>
                     </div>
                     <template v-if="revenue.actual">
-                        <h5 class="fw-normal">
-                            <count-up :end-val="revenue.actual" class="text-success-emphasis">
-                                <template #prefix>KES </template>
-                            </count-up>
-                        </h5>
-                        <h6 class="mb-0">
-                            <count-up class="text-500" :end-val="revenue.total">
-                                <template #prefix>KES </template>
-                            </count-up>
-                        </h6>
+                        <h5 class="fw-normal">KSH {{ revenue.actual }}</h5>
+                        <h6 class="mb-0"><span class="text-500 me-2">KSH {{ revenue.total }}</span></h6>
                     </template>
-                    <h5 v-else class="fw-normal">{{ revenue.total }}</h5>
+                    <h5 v-else class="fw-normal">KSH {{ revenue.total }}</h5>
                 </div>
             </div>
         </div>
@@ -31,8 +23,6 @@
 import ErrorFallback from '@/components/ErrorFallback.vue';
 import { ref } from 'vue';
 import { useProductsStore } from '@/stores/products.ts';
-import CountUp from 'vue-countup-v3';
-
 
 const error = ref<Error | undefined>(undefined);
 const store = useProductsStore();
