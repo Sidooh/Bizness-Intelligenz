@@ -426,12 +426,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nabcellent/sui-vue@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@nabcellent/sui-vue@npm:3.1.3"
+"@nabcellent/sui-vue@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@nabcellent/sui-vue@npm:3.1.4"
   peerDependencies:
     vue: ^3.3.4
-  checksum: 44a956d5abaa8b876305635f9273ecf04913bcfafc94626f2ddd436d8f37bdeef0b8f601cfa76afff2c2d4c1005b876f5e8572c0771c44801db1e9f44c5453a4
+  checksum: 4f383c981c6e2f4fe575dd22827a0cbea7e5ed81d401cd1f31fac36c53f46d48d6d146e718e2c86a55c21462bb29313113f92c4bdab964776e93dad1d7b21823
   languageName: node
   linkType: hard
 
@@ -1055,7 +1055,7 @@ __metadata:
   resolution: "bizness-intelligenz@workspace:."
   dependencies:
     "@formkit/vue": ^0.18.1
-    "@nabcellent/sui-vue": ^3.1.3
+    "@nabcellent/sui-vue": ^3.1.4
     "@types/bootstrap": ^5
     "@types/eslint": ^8
     "@types/node": ^20.5.0

@@ -27,19 +27,21 @@
                     <div class="row">
                         <div class="col" v-for="(count, src) in acquisitionCounts" :key="src">
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <div :style="`--falcon-circle-progress-bar:${count / store.acquisition.length * 100}`"
+                                <div :style="`--falcon-circle-progress-bar:${count / store.acquisition!.length * 100}`"
                                      class="position-relative">
-                                    <svg class="circle-progress-svg" width="26" height="26" viewBox="0 0 120 120">
+                                    <svg class="circle-progress-svg" width="35" height="35" viewBox="0 0 120 120">
                                         <circle class="progress-bar-rail" cx="60" cy="60" r="54" fill="none"
                                                 stroke-linecap="round" stroke-width="12"></circle>
                                         <circle class="progress-bar-top" cx="60" cy="60" r="54" fill="none"
                                                 stroke-linecap="round" stroke="#0F1B4C" stroke-width="12"></circle>
                                     </svg>
 
-                                    <small class="position-absolute top-50 start-50 translate-middle"
-                                           style="margin-top: .1rem">{{ count }}</small>
+                                    <small class="position-absolute top-50 start-50 translate-middle fs-7 fw-bold"
+                                           style="margin-top: 1px">
+                                        {{ count * 500 }}
+                                    </small>
                                 </div>
-                                <h6 class="mb-0 text-700 fs--2">{{ src }}</h6>
+                                <h6 class="mb-0 text-700 fs-7">{{ src }}</h6>
                             </div>
                         </div>
                     </div>

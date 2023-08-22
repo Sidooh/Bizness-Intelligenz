@@ -83,7 +83,7 @@ const waffleLinks = [
                 </a>
                 <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
                     <div class="bg-white dark__bg-1000 rounded-2 py-2">
-                        <h6 class="dropdown-header fw-bold text-warning py-1">
+                        <h6 class="dropdown-header fw-bold text-primary py-1">
                             <i class="fas fa-crown me-1"/>
                             <span>SIDOOH</span>
                         </h6>

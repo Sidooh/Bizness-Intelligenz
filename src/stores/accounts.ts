@@ -18,7 +18,7 @@ interface InvitedInfo {
 
 interface State {
     accounts: Account[] | undefined;
-    acquisition: Acquisition[];
+    acquisition: Acquisition[] | undefined;
     baseUrl: string;
     invited: {
         [key in InviteType]: InvitedInfo
@@ -32,7 +32,7 @@ interface State {
 export const useAccountsStore = defineStore('accounts', {
     state: (): State => ({
         accounts: undefined,
-        acquisition: [],
+        acquisition: undefined,
         baseUrl: CONFIG.sidooh.services.accounts.api.url,
         invited: { INVITED: {}, INVITE_CODE: {} },
         invites: undefined,
@@ -72,25 +72,26 @@ export const useAccountsStore = defineStore('accounts', {
 
         async getAcquisition() {
             if (!this.accounts) await this.fetchAccounts();
+            if (!this.acquisition) {
+                this.acquisition = this.accounts!.reduce((curr: Acquisition[], acc: Account) => {
+                    const src = acc.inviter_id ? 'INVITE' : (acc.invite_code ?? 'ROOT');
 
-            this.acquisition = this.accounts!.reduce((curr: Acquisition[], acc: Account) => {
-                const src = acc.inviter_id ? 'INVITE' : (acc.invite_code ?? 'ROOT');
+                    if (!this.acquisition_count_by_src[src]) {
+                        this.acquisition_count_by_src[src] = 1;
+                    } else {
+                        this.acquisition_count_by_src[src]++;
+                    }
 
-                if (!this.acquisition_count_by_src[src]) {
-                    this.acquisition_count_by_src[src] = 1;
-                } else {
-                    this.acquisition_count_by_src[src]++;
-                }
+                    const acquisition: Acquisition = {
+                        id: acc.id,
+                        phone: acc.phone,
+                        src,
+                        date: acc.created_at
+                    };
 
-                const acquisition:Acquisition = {
-                    id: acc.id,
-                    phone: acc.phone,
-                    src,
-                    date: acc.created_at
-                };
-
-                return [...curr, acquisition];
-            }, []);
+                    return [...curr, acquisition];
+                }, []);
+            }
         },
 
         async getReferrals() {
