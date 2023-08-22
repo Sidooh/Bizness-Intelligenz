@@ -81,8 +81,6 @@ try {
 
         actions.value[key] = [...new Set(actions.value[key])];
     });
-
-    console.log(actions.value);
 } catch (e: any) {
     error.value = e;
 }

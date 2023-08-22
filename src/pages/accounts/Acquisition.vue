@@ -38,7 +38,7 @@
 
                                     <small class="position-absolute top-50 start-50 translate-middle fs-7 fw-bold"
                                            style="margin-top: 1px">
-                                        {{ count * 500 }}
+                                        {{ count }}
                                     </small>
                                 </div>
                                 <h6 class="mb-0 text-700 fs-7">{{ src }}</h6>
