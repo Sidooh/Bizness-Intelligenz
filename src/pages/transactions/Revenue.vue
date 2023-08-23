@@ -1,6 +1,5 @@
 <template>
-    <ErrorFallback v-if="error" :error="error"/>
-    <div v-else class="card py-3 mb-3">
+    <div class="card py-3 mb-3">
         <div class="card-body py-3">
             <div class="row g-sm-0 gy-4 row-cols-4 h-100 align-content-between">
                 <div class="col" v-for="(revenue, desc) in store.revenue" :key="desc">
@@ -20,16 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import ErrorFallback from '@/components/ErrorFallback.vue';
-import { ref } from 'vue';
 import { useProductsStore } from '@/stores/products.ts';
 
-const error = ref<Error | undefined>(undefined);
 const store = useProductsStore();
-
-try {
-    await store.getRevenue();
-} catch (e: any) {
-    error.value = e;
-}
 </script>

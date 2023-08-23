@@ -79,9 +79,7 @@ export const useAccountsStore = defineStore('accounts', {
                 const converted = item.status === 'ACTIVE';
                 const type = item.type as InviteType;
 
-                if (!i[type]) {
-                    i[type] = {};
-                }
+                if (!i[type]) i[type] = {};
 
                 if (!i[type][inviterId]) {
                     i[type][inviterId] = { invited: 0, converted: 0, convergence: 0 };
