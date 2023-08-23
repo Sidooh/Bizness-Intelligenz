@@ -69,10 +69,4 @@ const acquisitionCounts = computed(() => {
             return sorted;
         }, {});
 });
-
-try {
-    await store.getAcquisition();
-} catch (e: any) {
-    error.value = e;
-}
 </script>

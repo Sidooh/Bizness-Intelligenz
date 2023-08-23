@@ -34,7 +34,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(invited, id) in store.invited.INVITED" :key="id">
+                                    <tr v-for="(invited, id) in store.invited?.INVITED" :key="id">
                                         <td class="py-1 fs--2">{{ id }}</td>
                                         <td class="text-end py-1 fs--2">{{ invited.invited }}</td>
                                         <td class="py-1 fs--2">{{ invited.converted }}</td>
@@ -64,7 +64,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(invited, id) in store.invited.INVITE_CODE" :key="id">
+                                    <tr v-for="(invited, id) in store.invited?.INVITE_CODE" :key="id">
                                         <td class="py-1 fs--2">{{ id }}</td>
                                         <td class="text-end py-1 fs--2">{{ invited.invited }}</td>
                                         <td class="py-1 fs--2">{{ invited.converted }}</td>
@@ -119,10 +119,4 @@ import { ref } from 'vue';
 
 const error = ref<Error|undefined>(undefined);
 const store = useAccountsStore();
-
-try {
-    await store.getReferrals();
-} catch (e:any) {
-    error.value = e;
-}
 </script>

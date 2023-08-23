@@ -18,36 +18,32 @@ interface InvitedInfo {
 
 interface State {
     accounts: Account[] | undefined;
-    acquisition: Acquisition[] | undefined;
     baseUrl: string;
-    invited: {
-        [key in InviteType]: InvitedInfo
-    };
     invites: Invite[] | undefined;
-    total_converted: number;
-    total_invites: number;
     acquisition_count_by_src: Record<string, number>;
 }
 
 export const useAccountsStore = defineStore('accounts', {
     state: (): State => ({
         accounts: undefined,
-        acquisition: undefined,
         baseUrl: CONFIG.sidooh.services.accounts.api.url,
-        invited: { INVITED: {}, INVITE_CODE: {} },
         invites: undefined,
-        total_converted: 0,
-        total_invites: 0,
         acquisition_count_by_src: {}
     }),
     getters: {
+        total_invites: state => state.invites?.length ?? 0,
+        total_converted() {
+            return this.joinedInviteAccounts.length;
+        },
         joinedInviteAccounts(state): Invite[] {
             return state.invites?.filter(i => i.status === 'ACTIVE') ?? [];
         },
         totalSidoohAccounts: (state): number => {
             return (state.accounts && state.accounts[0] ? state.accounts[0].id : undefined) || 0;
         },
-        convergence: (state): number => state.total_converted / state.total_invites * 100,
+        convergence(): number {
+            return this.total_converted / this.total_invites * 100;
+        },
         inviteRate(state): number {
             return this.totalSidoohAccounts || 1 / (state.invites?.length || 1);
         },
@@ -57,48 +53,28 @@ export const useAccountsStore = defineStore('accounts', {
         viralCoefficient(state): number {
             return this.totalSidoohAccounts || 1 / (state.invites?.length || 1) * this.joinedInviteAccounts.length / (state.invites?.length || 1);
         },
-    },
-    actions: {
-        async fetchAccounts() {
-            const { data: res } = await axios.get(`${this.baseUrl}/accounts?days=7`);
+        acquisition: (state): Acquisition[] | undefined => {
+            return state.accounts!.reduce((curr: Acquisition[], acc: Account) => {
+                const src = acc.inviter_id ? 'INVITE' : (acc.invite_code ?? 'ROOT');
 
-            this.accounts = res.data;
+                if (!state.acquisition_count_by_src[src]) {
+                    state.acquisition_count_by_src[src] = 1;
+                } else {
+                    state.acquisition_count_by_src[src]++;
+                }
+
+                const acquisition: Acquisition = {
+                    id: acc.id,
+                    phone: acc.phone,
+                    src,
+                    date: acc.created_at
+                };
+
+                return [...curr, acquisition];
+            }, []);
         },
-        async fetchInvites() {
-            const { data: res } = await axios.get(`${this.baseUrl}/invites?days=7`);
-
-            this.invites = res.data;
-        },
-
-        async getAcquisition() {
-            if (!this.accounts) await this.fetchAccounts();
-            if (!this.acquisition) {
-                this.acquisition = this.accounts!.reduce((curr: Acquisition[], acc: Account) => {
-                    const src = acc.inviter_id ? 'INVITE' : (acc.invite_code ?? 'ROOT');
-
-                    if (!this.acquisition_count_by_src[src]) {
-                        this.acquisition_count_by_src[src] = 1;
-                    } else {
-                        this.acquisition_count_by_src[src]++;
-                    }
-
-                    const acquisition: Acquisition = {
-                        id: acc.id,
-                        phone: acc.phone,
-                        src,
-                        date: acc.created_at
-                    };
-
-                    return [...curr, acquisition];
-                }, []);
-            }
-        },
-
-        async getReferrals() {
-            if (!this.accounts) await this.fetchAccounts();
-            if (!this.invites) await this.fetchInvites();
-
-            this.invited = this.invites!.reduce((i, item) => {
+        invited: (state): { [key in InviteType]: InvitedInfo } | undefined => {
+            return state.invites?.reduce((i, item) => {
                 const inviterId = item.inviter_id;
                 const converted = item.status === 'ACTIVE';
                 const type = item.type as InviteType;
@@ -119,9 +95,18 @@ export const useAccountsStore = defineStore('accounts', {
 
                 return i;
             }, {} as { [key in InviteType]: InvitedInfo });
+        }
+    },
+    actions: {
+        async fetchAccounts() {
+            const { data: res } = await axios.get(`${this.baseUrl}/accounts?days=7`);
 
-            this.total_invites = this.invites?.length ?? 0;
-            this.total_converted = this.joinedInviteAccounts.length;
+            this.accounts = res.data;
+        },
+        async fetchInvites() {
+            const { data: res } = await axios.get(`${this.baseUrl}/invites?days=7`);
+
+            this.invites = res.data;
         }
     },
 });
