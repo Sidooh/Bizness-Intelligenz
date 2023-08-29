@@ -6,10 +6,16 @@ import axios from 'axios';
 import { User } from '@nabcellent/sui-vue';
 import { CONFIG } from '@/config.ts';
 
+interface State {
+    baseUrl: string;
+    token: string|null;
+    user: User;
+}
+
 export const useAuthStore = defineStore('auth', {
-    state: () => ({
+    state: (): State => ({
         baseUrl: CONFIG.sidooh.services.accounts.api.url,
-        token: localStorage.getItem('token') || null,
+        token: null,
         user: <User>{},
     }),
 
@@ -42,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         checkLocalAuth() {
-            this.token = localStorage.getItem('token');
+            this.token = JSON.parse(String(localStorage.getItem('token')));
 
             if (this.token) {
                 const tokenData = decodeJWT(this.token);
